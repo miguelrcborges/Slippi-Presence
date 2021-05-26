@@ -8,7 +8,7 @@ from pypresence import Presence
 config = configparser.ConfigParser()
 config.read('config.ini')
 path = config['Variables']['path']
-code = config['Variables']['code']
+code = config['Variables']['code'].upper()
 
 support_dict = {"CAPTAIN_FALCON":['falcon','Captain Falcon'], "ICE_CLIMBERS": ['iceclimbers', "Ice Climbers"], "DONKEY_KONG": ["donkeykong", "Donkey Kong"], "GAME_AND_WATCH": ['gaw', "Mr. Game and Watch"], "YOUNG_LINK": ['younglink', "Young Link"], "DR_MARIO": ['drmario',"Doctor Mario"]}
 stages_dict = {"POKEMON_STADIUM": ['ps','Pokemon Stadium'], "FOUNTAIN_OF_DREAMS": ['fod', 'Fountain of Dreams'], "YOSHIS_STORY": ["yoshis", "Yoshi's Story"], "DREAM_LAND_N64": ['dl', 'Dreamland'], "BATTLEFIELD": ['bf',"Battlefield"], "FINAL_DESTINATION": ['fd','Final Destination']}
@@ -18,7 +18,7 @@ RPC = Presence(client_id)
 RPC.connect() 
 
 while True:
-    list_of_files = glob.glob(path + ".\*")
+    list_of_files = glob.glob(path + "/*")
     sorted_files = sorted(list_of_files, key=os.path.getctime)
     game = Game(sorted_files[-2])
     stage = str(game.start.stage)[6:]
