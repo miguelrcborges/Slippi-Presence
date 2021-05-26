@@ -59,7 +59,7 @@ while True:
         pass
 
 
-    print(RPC.update(state=playing_with_str, details=melee_type, large_image=stage_image, small_image=char_image, large_text=stage_text, small_text=char_text, buttons=[{'label':'On testing',"url":'https://github.com/miguelrcborges/'}]))
+    print(RPC.update(state=playing_with_str, details=melee_type, large_image=stage_image, small_image=char_image, large_text=stage_text, small_text=char_text))
     time.sleep(10)
 
 
