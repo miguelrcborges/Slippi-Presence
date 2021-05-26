@@ -4,12 +4,19 @@ import glob
 import os
 from slippi import Game
 
-client_id = '638163525029724180' #Put your client ID here
+file = open('code.txt')
+code = file.read()
+file.close()
+file = open('path.txt')
+path = file.read()
+file.close()
+
+client_id = '638163525029724180' 
 RPC = Presence(client_id) 
 RPC.connect() 
 
 while True:
-    list_of_files = glob.glob('D:\Jogos\Slippi\*')
+    list_of_files = glob.glob(path + ".\*")
     sorted_files = sorted(list_of_files, key=os.path.getctime)
     game = Game(sorted_files[-2])
     stage = str(game.start.stage)[6:]
@@ -20,7 +27,7 @@ while True:
         elif player.netplay is None:
             char = "fox"
         else:
-            if player.netplay.code == "BOGA#158":
+            if str(player.netplay.code) == code:
                 char = str(list(player.characters.keys())[0])[16:]
             else:
                 playing_with.append(player.netplay.code)
@@ -32,8 +39,8 @@ while True:
 
 
     playing_with_str = "vs."
-    for code in playing_with:
-        playing_with_str += " " + code
+    for person in playing_with:
+        playing_with_str += " " + person
 
     try:
         if char == "CAPTAIN_FALCON":
