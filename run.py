@@ -1,15 +1,17 @@
-from pypresence import Presence
 import time
+import configparser
 import glob
 import os
 from slippi import Game
+from pypresence import Presence
 
-file = open('code.txt')
-code = file.read()
-file.close()
-file = open('path.txt')
-path = file.read()
-file.close()
+config = configparser.ConfigParser()
+config.read('config.ini')
+path = config['Variables']['path']
+code = config['Variables']['code']
+
+support_dict = {"CAPTAIN_FALCON":['falcon','Captain Falcon'], "ICE_CLIMBERS": ['iceclimbers', "Ice Climbers"], "DONKEY_KONG": ["donkeykong", "Donkey Kong"], "GAME_AND_WATCH": ['gaw', "Mr. Game and Watch"], "YOUNG_LINK": ['younglink', "Young Link"], "DR_MARIO": ['drmario',"Doctor Mario"]}
+stages_dict = {"POKEMON_STADIUM": ['ps','Pokemon Stadium'], "FOUNTAIN_OF_DREAMS": ['fod', 'Fountain of Dreams'], "YOSHIS_STORY": ["yoshis", "Yoshi's Story"], "DREAM_LAND_N64": ['dl', 'Dreamland'], "BATTLEFIELD": ['bf',"Battlefield"], "FINAL_DESTINATION": ['fd','Final Destination']}
 
 client_id = '638163525029724180' 
 RPC = Presence(client_id) 
@@ -23,9 +25,7 @@ while True:
     playing_with = []
     for player in game.metadata.players:
         if player is None:
-            char = "fox"
-        elif player.netplay is None:
-            char = "fox"
+            pass
         else:
             if str(player.netplay.code) == code:
                 char = str(list(player.characters.keys())[0])[16:]
@@ -43,50 +43,20 @@ while True:
         playing_with_str += " " + person
 
     try:
-        if char == "CAPTAIN_FALCON":
-            char_image = 'falcon'
-            char_text = 'Captain Falcon'
-        elif char == "ICE_CLIMBERS":
-            char_image = 'iceclimbers'
-            char_text = "Ice Climbers"
-        elif char == "DONKEY_KONG":
-            char_image = "donkeykong"
-            char_text = 'Donkey Kong'
-        elif char == "GAME_AND_WATCH":
-            char_image = 'gaw'
-            char_text = "Mr. Game and Watch"
-        elif char == "YOUNG_LINK":
-            char_image = 'younglink'
-            char_text == "Young Link"
-        elif char == "DR_MARIO":
-            char_image = 'drmario'
-            char_text == "Doctor Mario"
+        if char in support_dict.keys():
+            char_image, char_text = support_dict[char]
         else:
             char_image = char.lower()
             char_text = char.capitalize()
-        
+    
     except:
         continue
 
+    try:
+        stage_image, stage_text = stages_dict[stage]
 
-    if stage == "POKEMON_STADIUM":
-        stage_text = "Pokemon Stadium"
-        stage_image = "ps"
-    elif stage == "FOUNTAIN_OF_DREAMS":
-        stage_text = "Fountain of Dreams"
-        stage_image = "fod"
-    elif stage == "YOSHIS_STORY":
-        stage_text = "Yoshi's Story"
-        stage_image = "yoshis"
-    elif stage == "DREAM_LAND_N64":
-        stage_text = "Dreamland"
-        stage_image = "dl"
-    elif stage == "BATTLEFIELD":
-        stage_text = "Battlefield"
-        stage_image = "bf"
-    elif stage == "FINAL_DESTINATION":
-        stage_text = "Final Destination"
-        stage_image = "fd"
+    except:
+        pass
 
 
     print(RPC.update(state=playing_with_str, details=melee_type, large_image=stage_image, small_image=char_image, large_text=stage_text, small_text=char_text, buttons=[{'label':'On testing',"url":'https://github.com/miguelrcborges/'}]))

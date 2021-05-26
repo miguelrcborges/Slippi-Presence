@@ -4,4 +4,4 @@ Discord Rich Presence written in Python. Once the slippi's python library doesn'
 
 # Usage
 
-Put your connection code under code.txt and your path do slippi's replays in path.txt (eg ".\Documents\Slippi)
+Put your connection code and your slippi's replay folder path (eg ".\Documents\Slippi) in config.ini
